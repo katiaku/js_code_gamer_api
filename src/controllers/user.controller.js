@@ -1,4 +1,5 @@
 const { pool } = require('../database');
+const {express} = require('express')
 
 const userRegister = async (req, res) => {
     try {
@@ -20,4 +21,24 @@ const userRegister = async (req, res) => {
     }
 };
 
-module.exports = { userRegister };
+const userLogin = async (req, res) => {
+    try {
+        let sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+        let [result] = await pool.query(sql, [req.body.email, req.body.password]);
+
+        if (result.length > 0) {
+            const userWithoutPassword = { ...result[0], password: undefined };
+            res.status(200).json(userWithoutPassword);
+        } else {
+            res.status(401).send('Credenciales incorrectas');
+        }
+    } catch (error) {
+        console.error("Error al realizar la consulta de inicio de sesión:", error);
+        res.status(500).send('Error interno del servidor');
+    }
+};
+
+module.exports = {
+    userRegister,
+    userLogin,
+};
