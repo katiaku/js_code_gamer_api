@@ -6,9 +6,9 @@ const getThemes = async (req, res) => {
         let params = [req.query.iduser];
         console.log(params);
         let sql;
-        sql = `SELECT l.title, t.title, t.content, t.code FROM themes as t
-            INNER JOIN levels as l ON (l.idlevels = t.id_level)
-            INNER JOIN user_theme as ut ON (ut.idtheme = t.idthemes) 
+        sql = `SELECT l.title AS 'level', t.title AS 'theme', t.content, t.code FROM themes AS t
+            INNER JOIN levels AS l ON (l.idlevels = t.id_level)
+            INNER JOIN user_theme AS ut ON (ut.idtheme = t.idthemes) 
             WHERE ut.iduser = ?`;
         let [result] = await pool.query(sql, params);
         res.send(result);
