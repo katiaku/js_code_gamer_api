@@ -1,9 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 const {express} = require('express');
-const constrolador= require('../controllers/user.controller');
+const controladorUser = require('../controllers/user.controller');
+const controladorThemes = require('../controllers/themes.controller');
 
-router.post('/register', constrolador.userRegister);
-router.post('/login', constrolador.userLogin);
+router.get('/themes', controladorThemes.getThemes);
+
+router.post('/register', controladorUser.userRegister);
+
+router.post('/login', controladorUser.userLogin);
 
 module.exports = router;

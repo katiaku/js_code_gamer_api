@@ -1,5 +1,5 @@
 const { pool } = require('../database');
-const {express} = require('express')
+const {express} = require('express');
 
 // const userRegister = async (req, res) => {
 //     try {
