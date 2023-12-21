@@ -41,13 +41,13 @@ const userRegister = async (req, res) => {
 const userRetos = async (req, res) => {
     try {
         console.log(req.query);
-        let params = [ req.id_level];
+        let params = [req.body.iduser, req.body.id_level, req.body.activate];
         let sql = 'SELECT l.title, c.title, c.content, c.code  FROM challenges as c '+
                 'INNER JOIN levels as l ON (l.idlevels = c.id_level) '+
                 'INNER JOIN `db-js-code-gamer`.user_challenges as uc ON (uc.idchallenge = c.idchallenges) '+ 
                 'WHERE uc.iduser = ? AND '+ 
                 'c.id_level = ? AND '+
-                'uc.activated = ?;';
+                'uc.activate = ?;';
         console.log(sql);
 
         let [result] = await pool.query(sql, params);
