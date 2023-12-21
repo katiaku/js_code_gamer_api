@@ -1,10 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 const {express} = require('express');
-const controlador= require('../controllers/user.controller');
+const controladorUser = require('../controllers/user.controller');
+const controladorThemes = require('../controllers/themes.controller');
 
-router.post('/register', controlador.userRegister);
-router.post('/login', controlador.userLogin);
-router.post('/actualizarPorcentaje/:iduserTheme/:id_levelTheme/:iduserChallenges/:id_levelChallenges/:idlevelsLevels/:iduserUserLevel/:idlevelUserLevel', controlador.avancePorcentaje);
+router.get('/themes', controladorThemes.getThemes);
+
+router.post('/register', controladorUser.userRegister);
+
+router.post('/login', controladorUser.userLogin);
 
 module.exports = router;
