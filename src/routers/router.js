@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const router = Router();
 const {express} = require('express');
-const constrolador= require('../controllers/user.controller');
+const controlador= require('../controllers/user.controller');
 
-router.post('/register', constrolador.userRegister);
-router.post('/login', constrolador.userLogin);
+router.post('/register', controlador.userRegister);
+router.post('/login', controlador.userLogin);
+router.post('/actualizarPorcentaje/:iduserTheme/:id_levelTheme/:iduserChallenges/:id_levelChallenges/:idlevelsLevels/:iduserUserLevel/:idlevelUserLevel', controlador.avancePorcentaje);
 
 module.exports = router;

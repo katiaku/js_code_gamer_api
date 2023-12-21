@@ -38,7 +38,65 @@ const userLogin = async (req, res) => {
     }
 };
 
+const avancePorcentaje = async (req, res) => {
+    try{
+        const iduserTheme = req.params.iduserTheme;
+        const id_levelTheme = req.params.id_levelTheme;
+        const iduserChallenges = req.params.iduserChallenges;
+        const id_levelChallenges = req.params.id_levelChallenges;
+        const idlevelsLevels = req.params.idlevelsLevels;
+        const iduserUserLevel = req.params.iduserUserLevel;
+        const idlevelUserLevel = req.params.idlevelUserLevel;
+        
+        console.log(iduserTheme)
+        console.log(id_levelTheme)
+        console.log(iduserChallenges)
+        console.log(id_levelChallenges)
+        console.log(idlevelsLevels)
+        console.log(iduserUserLevel)
+        console.log(idlevelUserLevel)
+        const sql = `
+        UPDATE user_level
+        SET percentage = (
+            ((
+                SELECT COUNT(*)
+                FROM user_theme JOIN themes ON (themes.idthemes = user_theme.idtheme)
+                WHERE user_theme.iduser = ? AND user_theme.completed = 1 AND themes.id_level = ?
+                )+(
+                 SELECT COUNT(*)
+                FROM user_challenges JOIN challenges ON (challenges.idchallenges = user_challenges.idchallenge)
+                WHERE user_challenges.iduser = ? AND user_challenges.completed = 1 AND challenges.id_level = ?
+                ))
+            /
+            (
+                SELECT levels.number_challenge + levels.number_theme FROM levels WHERE levels.idlevels = ?
+            )
+        ) * 100
+        WHERE user_level.iduser = ? AND  user_level.idlevel = ?;
+        `;
+
+       let [result] = await pool.query(sql, [iduserTheme, id_levelTheme, iduserChallenges, id_levelChallenges, idlevelsLevels, iduserUserLevel, idlevelUserLevel]);
+       
+        console.log(iduserTheme)
+        console.log(id_levelTheme)
+        console.log(iduserChallenges)
+        console.log(id_levelChallenges)
+        console.log(idlevelsLevels)
+        console.log(iduserUserLevel)
+        console.log(idlevelUserLevel)
+
+        console.log(result)
+        res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', result });
+    } catch (error) {
+        console.error('Error al ejecutar la consulta:', error);
+        res.status(500).json({ success: false, error: 'Error interno del servidor' });
+    }
+};
+
+
+
 module.exports = {
     userRegister,
     userLogin,
+    avancePorcentaje,
 };
