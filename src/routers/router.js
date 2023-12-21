@@ -1,10 +1,15 @@
 const { Router } = require('express');
 const router = Router();
-const constrolador= require('../controllers/user.controller');
+const {express} = require('express');
+const controladorUser = require('../controllers/user.controller');
+const controladorThemes = require('../controllers/themes.controller');
 
-router.post('/register', constrolador.userRegister);
-router.post('/login', constrolador.userLogin);
+router.get('/themes', controladorThemes.getThemes);
 
-router.get('/retos', constrolador.userRetos);
+router.post('/register', controladorUser.userRegister);
+
+router.post('/login', controladorUser.userLogin);
+
+router.get('/retos', controladorUser.userRetos);
 
 module.exports = router;
