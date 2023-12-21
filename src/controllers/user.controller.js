@@ -21,12 +21,12 @@ const userRegister = async (req, res) => {
     }
 };
 
-const userStatus = async (req, res) => {
+const userRetos = async (req, res) => {
     try {
         console.log(req.query);
         let params = [ req.query.id_level];
-        let sql = 'SELECT l.title as unit, t.title, t.content, t.code  FROM themes as t '+
-                'INNER JOIN levels as l ON (l.idlevels = t.id_level) '+
+        let sql = 'SELECT l.title as unit, c.title, c.content, c.code  FROM challenges as c '+
+                'INNER JOIN levels as l ON (l.idlevels = c.id_level) '+
                 'WHERE l.idlevels = ?;';
         console.log(sql);
 
@@ -67,5 +67,5 @@ const userLogin = async (req, res) => {
 module.exports = {
     userRegister,
     userLogin,
-    userStatus
+    userRetos
 };
