@@ -42,7 +42,7 @@ const userRetos = async (req, res) => {
     try {
         console.log(req.query);
         let params = [req.query.iduser, req.query.id_level, req.query.activate];
-        let sql = `SELECT l.title, c.title, c.content, c.code  FROM challenges as c 
+        let sql = `SELECT l.title as unit, c.title, c.content, c.code  FROM challenges as c 
                 INNER JOIN levels as l ON (l.idlevels = c.id_level) 
                 INNER JOIN user_challenges as uc ON (uc.idchallenge = c.idchallenges) 
                 WHERE uc.iduser = ? AND 
