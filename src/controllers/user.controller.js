@@ -38,9 +38,44 @@ const userRegister = async (req, res) => {
     }
 };
 
+// const userLogin = async (req, res) => {
+//     try {
+//         let sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+//         let [result] = await pool.query(sql, [req.body.email, req.body.password]);
+
+//         if (result.length > 0) {
+//             const userWithoutPassword = { ...result[0], password: undefined };
+//             res.status(200).json(userWithoutPassword);
+//         } else {
+//             res.status(401).send('Credenciales incorrectas');
+//         }
+//     } catch (error) {
+//         console.error("Error al realizar la consulta de inicio de sesión:", error);
+//         res.status(500).send('Error interno del servidor');
+//     }
+// };
+
 const userLogin = async (req, res) => {
     try {
-        let sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+        let sql = `
+        SELECT 
+        user.*,
+        user_theme.iduser AS user_theme_iduser,
+        themes.id_level AS themes_id_level,
+        user_challenges.iduser AS user_challenges_iduser,
+        challenges.id_level AS challenges_id_level,
+        levels.idlevels AS levels_idlevels,
+        user_level.iduser AS user_level_iduser,
+        user_level.idlevel AS user_level_idlevel
+    FROM user
+    LEFT JOIN user_theme ON user.iduser = user_theme.iduser
+    LEFT JOIN themes ON user_theme.idtheme = themes.idthemes
+    LEFT JOIN user_challenges ON user.iduser = user_challenges.iduser
+    LEFT JOIN challenges ON user_challenges.idchallenge = challenges.idchallenges
+    LEFT JOIN user_level ON user.iduser = user_level.iduser
+    LEFT JOIN levels ON user_level.idlevel = levels.idlevels
+WHERE 
+    user.email = ? AND user.password = ?`;
         let [result] = await pool.query(sql, [req.body.email, req.body.password]);
 
         if (result.length > 0) {
@@ -54,6 +89,7 @@ const userLogin = async (req, res) => {
         res.status(500).send('Error interno del servidor');
     }
 };
+
 
 const avancePorcentaje = async (req, res) => {
     try{
