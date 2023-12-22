@@ -93,13 +93,13 @@ WHERE
 
 const avancePorcentaje = async (req, res) => {
     try{
-        const iduserTheme = req.params.iduserTheme;
-        const id_levelTheme = req.params.id_levelTheme;
-        const iduserChallenges = req.params.iduserChallenges;
-        const id_levelChallenges = req.params.id_levelChallenges;
-        const idlevelsLevels = req.params.idlevelsLevels;
-        const iduserUserLevel = req.params.iduserUserLevel;
-        const idlevelUserLevel = req.params.idlevelUserLevel;
+        const iduserTheme = req.body.iduserTheme;
+        const id_levelTheme = req.body.id_levelTheme;
+        const iduserChallenges = req.body.iduserChallenges;
+        const id_levelChallenges = req.body.id_levelChallenges;
+        const idlevelsLevels = req.body.idlevelsLevels;
+        const iduserUserLevel = req.body.iduserUserLevel;
+        const idlevelUserLevel = req.body.idlevelUserLevel;
         
         console.log(iduserTheme)
         console.log(id_levelTheme)
@@ -153,3 +153,40 @@ module.exports = {
     userLogin,
     avancePorcentaje,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SELECT 
+// 	user.*,
+// 	user_theme.iduser AS iduserTheme,
+// 	themes.id_level AS id_levelTheme,
+// 	user_challenges.iduser AS iduserChallenges,
+// 	challenges.id_level AS id_levelChallenges,
+//     levels.idlevels AS idlevelsLevels,
+//     user_level.iduser AS iduserUserLevel,
+//     user_level.idlevel AS idlevelUserLevel
+// FROM 
+// 	user
+//     LEFT JOIN user_theme ON user.iduser = user_theme.iduser
+//     LEFT JOIN themes ON levels.idlevels = themes.id_level
+//     LEFT JOIN user_challenges ON user.iduser = user_challenges.iduser
+//     LEFT JOIN challenges ON levels.idlevels = challenges.id_level
+//     LEFT JOIN levels ON levels.idlevels = levels.idlevels
+//     LEFT JOIN user_level ON user.iduser = user_level.iduser
+//     LEFT JOIN user_level ON levels.idlevels = user_level.idlevel
+// WHERE 
+// user.email = 'pepe@mail.com' AND user.password = 'pepe1234';
