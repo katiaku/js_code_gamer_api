@@ -38,6 +38,35 @@ const userRegister = async (req, res) => {
     }
 };
 
+const userRetos = async (req, res) => {
+    try {
+        console.log(req.query);
+        let params = [req.query.iduser, req.query.id_level, req.query.activate];
+        let sql = `SELECT l.title as unit, c.title, c.content, c.code  FROM challenges as c 
+                INNER JOIN levels as l ON (l.idlevels = c.id_level) 
+                INNER JOIN user_challenges as uc ON (uc.idchallenge = c.idchallenges) 
+                WHERE uc.iduser = ? AND 
+                c.id_level = ? AND 
+                uc.activate = ?;`;
+        console.log(sql);
+
+        let [result] = await pool.query(sql, params);
+        console.log(result);
+        let respuesta = {
+            error: false,
+            code: 200,
+            message: "Tema " + req.body.idtheme,
+            data: result  
+        }
+
+        console.log(respuesta);
+        
+        res.send(respuesta);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // const userLogin = async (req, res) => {
 //     try {
 //         let sql = "SELECT * FROM user WHERE email = ? AND password = ?";
@@ -151,6 +180,7 @@ const avancePorcentaje = async (req, res) => {
 module.exports = {
     userRegister,
     userLogin,
+    userRetos,
     avancePorcentaje,
 };
 
