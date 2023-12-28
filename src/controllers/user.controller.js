@@ -1,26 +1,6 @@
 const { pool } = require('../database');
 const {express} = require('express');
 
-// const userRegister = async (req, res) => {
-//     try {
-//         console.log(req.body);
-//         let params = [req.body.name_surname, req.body.email, req.body.username, req.body.photo, req.body.password];
-//         let sql = `INSERT INTO user (name_surname, email, username, photo, password) 
-//                     VALUES (?, ?, ?, ?, ?)`;
-//         console.log(sql);
-
-//         let [result] = await pool.query(sql, params);
-//         console.log(result);
-
-//         if (result.insertId)
-//             res.send(String(result.insertId));
-//         else
-//             res.send('Fallo en el registro de usuario');
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
 const userRegister = async (req, res) => {
     try {
         const { name_surname, email, username, photo, password } = req.body;
@@ -119,6 +99,10 @@ WHERE
     }
 };
 
+const userLogout = (req, res) => {
+    res.json({ success: true });
+};
+
 
 const avancePorcentaje = async (req, res) => {
     try{
@@ -145,7 +129,7 @@ const avancePorcentaje = async (req, res) => {
                 FROM user_theme JOIN themes ON (themes.idthemes = user_theme.idtheme)
                 WHERE user_theme.iduser = ? AND user_theme.completed = 1 AND themes.id_level = ?
                 )+(
-                 SELECT COUNT(*)
+                SELECT COUNT(*)
                 FROM user_challenges JOIN challenges ON (challenges.idchallenges = user_challenges.idchallenge)
                 WHERE user_challenges.iduser = ? AND user_challenges.completed = 1 AND challenges.id_level = ?
                 ))
@@ -157,8 +141,8 @@ const avancePorcentaje = async (req, res) => {
         WHERE user_level.iduser = ? AND  user_level.idlevel = ?;
         `;
 
-       let [result] = await pool.query(sql, [iduserTheme, id_levelTheme, iduserChallenges, id_levelChallenges, idlevelsLevels, iduserUserLevel, idlevelUserLevel]);
-       
+        let [result] = await pool.query(sql, [iduserTheme, id_levelTheme, iduserChallenges, id_levelChallenges, idlevelsLevels, iduserUserLevel, idlevelUserLevel]);
+
         console.log(iduserTheme)
         console.log(id_levelTheme)
         console.log(iduserChallenges)
@@ -175,11 +159,10 @@ const avancePorcentaje = async (req, res) => {
     }
 };
 
-
-
 module.exports = {
     userRegister,
     userLogin,
     userRetos,
     avancePorcentaje,
+    userLogout
 };

@@ -10,6 +10,8 @@ router.post('/register', controladorUser.userRegister);
 
 router.post('/login', controladorUser.userLogin);
 
+router.post('/logout', controladorUser.userLogout);
+
 router.get('/retos', controladorUser.userRetos);
 //http://localhost:3000/login
 router.post('/actualizarPorcentaje/:iduserTheme/:id_levelTheme/:iduserChallenges/:id_levelChallenges/:idlevelsLevels/:iduserUserLevel/:idlevelUserLevel', controladorUser.avancePorcentaje);
