@@ -1,6 +1,26 @@
 const { pool } = require('../database');
 const {express} = require('express');
 
+// const userRegister = async (req, res) => {
+//     try {
+//         console.log(req.body);
+//         let params = [req.body.name_surname, req.body.email, req.body.username, req.body.photo, req.body.password];
+//         let sql = `INSERT INTO user (name_surname, email, username, photo, password) 
+//                     VALUES (?, ?, ?, ?, ?)`;
+//         console.log(sql);
+
+//         let [result] = await pool.query(sql, params);
+//         console.log(result);
+
+//         if (result.insertId)
+//             res.send(String(result.insertId));
+//         else
+//             res.send('Fallo en el registro de usuario');
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+
 const userRegister = async (req, res) => {
     try {
         const { name_surname, email, username, photo, password } = req.body;
@@ -90,10 +110,6 @@ WHERE
     }
 };
 
-const userLogout = (req, res) => {
-    res.json({ success: true });
-};
-
 
 const avancePorcentaje = async (req, res) => {
     try{
@@ -134,10 +150,21 @@ const avancePorcentaje = async (req, res) => {
                 WHERE l.idlevels = ul.idlevel
             )
         ) * 100
-        WHERE user_level.iduser = ? AND  user_level.idlevel = ?;
+        WHERE ul.iduser = ? AND  ul.idlevel = (SELECT idlevels FROM levels WHERE idlevels = ul.idlevel);
+
         `;
 
-       let [result] = await pool.query(sql, [iduserTheme, id_levelTheme, iduserChallenges, id_levelChallenges, idlevelsLevels, iduserUserLevel, idlevelUserLevel]);
+        const selectSql = `
+            SELECT percentage
+            FROM user_level
+            WHERE user_level.iduser = ? AND user_level.idlevel = user_level.idlevel;
+        `;
+
+       await pool.query(updateSql, [iduserTheme, iduserChallenges, iduserUserLevel]);
+       const [result] = await pool.query(selectSql, [iduserUserLevel]);
+       if (result.length > 0) {
+        const nuevoPorcentaje = result[0].percentage;
+        console.log(nuevoPorcentaje);
        
         console.log(iduserTheme)
         // console.log(id_levelTheme)
@@ -159,7 +186,111 @@ const avancePorcentaje = async (req, res) => {
     }
 };
 
+const obtenerDatosNiveles = async (req, res) => {
+    try {
+      const iduser = req.params.iduser;
+      const sql = `SELECT *, title
+      FROM user_level 
+      JOIN levels ON user_level.idlevel = levels.idlevels
+      WHERE iduser = ?`;
+      const [result] = await pool.query(sql, [iduser]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error('Error al obtener datos de niveles:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  };
 
+
+//   const updateUser = async (request, response) => {
+//     try {
+//       const { iduser, name_surname, email, username, photo, password} = request.body;
+  
+//            if (!name_surname || !email || !username || !photo || !password) {
+//         return response.status(400).send({ error: true, codigo: 400, message: "Datos incompletos para actualizar el usuario" });
+//       }
+  
+//       // Realiza la actualización en la base de datos
+//       const sql = 'UPDATE user SET name_surname = ?, email = ?, username = ?, photo = ?, password = ? WHERE iduser = ?;';
+//       const [result] = await pool.query(sql, [name_surname, email, username, photo, password, iduser]);
+//       console.log(result)
+  
+//       // Verifica si la actualización fue exitosa
+//       if (result.affectedRows === 1) {
+//         response.send({ error: false, codigo: 200, message: "Usuario actualizado correctamente" });
+//       } else {
+//         response.status(500).send({ error: true, codigo: 500, message: "No se pudo actualizar el Usuario" });
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
+//     }
+//   };
+
+
+const updateUser = async (request, response) => {
+    try {
+      const { iduser, name_surname, email, username, photo, password } = request.body;
+  
+      if (!iduser) {
+        return response.status(400).send({ error: true, codigo: 400, message: "ID de usuario no proporcionado" });
+      }
+  
+      let updateFields = [];
+      let updateValues = [];
+  
+      if (name_surname) {
+        updateFields.push('name_surname = ?');
+        updateValues.push(name_surname);
+      }
+  
+      if (email) {
+        updateFields.push('email = ?');
+        updateValues.push(email);
+      }
+  
+      if (username) {
+        updateFields.push('username = ?');
+        updateValues.push(username);
+      }
+  
+      if (photo) {
+        updateFields.push('photo = ?');
+        updateValues.push(photo);
+      }
+  
+      if (password) {
+        updateFields.push('password = ?');
+        updateValues.push(password);
+      }
+  
+      if (updateFields.length === 0) {
+        return response.status(400).send({ error: true, codigo: 400, message: "No hay datos para actualizar" });
+      }
+  
+      // Construye la consulta SQL dinámicamente
+      const sql = `UPDATE user SET ${updateFields.join(', ')} WHERE iduser = ?;`;
+      const queryValues = [...updateValues, iduser];
+  
+      console.log("SQL:", sql);
+      console.log("Query Values:", queryValues);
+
+      // Realiza la actualización en la base de datos
+      const [result] = await pool.query(sql, queryValues);
+      console.log("Query Result:", result);
+  
+      // Verifica si la actualización fue exitosa
+      if (result.affectedRows === 1) {
+        response.send({ error: false, codigo: 200, message: "Usuario actualizado correctamente" });
+      } else {
+        response.status(500).send({ error: true, codigo: 500, message: "No se pudo actualizar el Usuario" });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
+    }
+  };
 
 module.exports = {
     userRegister,
@@ -167,4 +298,5 @@ module.exports = {
     userRetos,
     updateUser,
     avancePorcentaje,
+    obtenerDatosNiveles,
 };
