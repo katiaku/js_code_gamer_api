@@ -146,13 +146,13 @@ const avancePorcentaje = async (req, res) => {
         // console.log(idlevelsLevels)
         console.log(iduserUserLevel)
         // console.log(idlevelUserLevel)
-
-        console.log(result)
-        res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
-    } else {
-        // La actualización no fue exitosa
-        res.status(500).json({ success: false, error: 'La actualización del porcentaje no fue exitosa', result });
-    } 
+        if(result.length>0){        
+            console.log(result)
+            res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
+        } else {
+            // La actualización no fue exitosa
+            res.status(500).json({ success: false, error: 'La actualización del porcentaje no fue exitosa', result });
+        } 
     } catch (error) {
         console.error('Error al ejecutar la consulta:', error);
         res.status(500).json({ success: false, error: 'Error interno del servidor' });
