@@ -10,6 +10,8 @@ router.post('/register', controladorUser.userRegister);
 
 router.post('/login', controladorUser.userLogin);
 
+router.post('/logout', controladorUser.userLogout);
+
 router.get('/retos', controladorUser.userRetos);
 
 router.put('/usuario', controladorUser.updateUser);

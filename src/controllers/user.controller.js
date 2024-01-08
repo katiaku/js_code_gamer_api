@@ -110,6 +110,9 @@ WHERE
     }
 };
 
+const userLogout = (req, res) => {
+    res.json({ success: true });
+};
 
 const avancePorcentaje = async (req, res) => {
     try{
@@ -295,6 +298,7 @@ const updateUser = async (request, response) => {
 module.exports = {
     userRegister,
     userLogin,
+    userLogout,
     userRetos,
     updateUser,
     avancePorcentaje,
