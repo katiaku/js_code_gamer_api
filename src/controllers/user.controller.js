@@ -173,7 +173,7 @@ const avancePorcentaje = async (req, res) => {
         // console.log(idlevelsLevels)
         console.log(iduserUserLevel)
         // console.log(idlevelUserLevel)
-        if(result.length>0){        
+             
             console.log(result)
             res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
         } else {
