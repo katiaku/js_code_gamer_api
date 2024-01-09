@@ -18,7 +18,9 @@ router.put('/usuario', controladorUser.updateUser);
 
 router.post('/actualizarPorcentaje', controladorUser.avancePorcentaje);
 
-router.get('/obtenerDatosNiveles/:iduser', controladorUser.obtenerDatosNiveles)
+router.get('/obtenerDatosNiveles/:iduser', controladorUser.obtenerDatosNiveles);
+
+router.get('/:iduser', controladorUser.getAll);
 
 module.exports = router;
 
