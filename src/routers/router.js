@@ -6,6 +6,8 @@ const controladorThemes = require('../controllers/themes.controller');
 
 router.get('/themes', controladorThemes.getThemes);
 
+router.put('/themes/mark_themes_completed', controladorThemes.markThemesCompleted);
+
 router.post('/register', controladorUser.userRegister);
 
 router.post('/login', controladorUser.userLogin);
