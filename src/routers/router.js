@@ -24,6 +24,10 @@ router.get('/obtenerDatosNiveles/:iduser', controladorUser.obtenerDatosNiveles);
 
 router.get('/:iduser', controladorUser.getAll);
 
+router.get('/', (req, res) => {
+    res.send('Api desplegada');
+});
+
 module.exports = router;
 
 
