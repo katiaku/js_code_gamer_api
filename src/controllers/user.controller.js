@@ -41,13 +41,12 @@ const userRegister = async (req, res) => {
 const userRetos = async (req, res) => {
     try {
         console.log(req.query);
-        let params = [req.query.iduser, req.query.id_level, req.query.activate];
-        let sql = `SELECT l.title as unit, c.title, c.content, c.code  FROM challenges as c 
+        let params = [req.query.iduser, req.query.id_level];
+        let sql = `SELECT l.title as unit, c.title, c.content, c.code, c.resultado  FROM challenges as c 
                 INNER JOIN levels as l ON (l.idlevels = c.id_level) 
                 INNER JOIN user_challenges as uc ON (uc.idchallenge = c.idchallenges) 
                 WHERE uc.iduser = ? AND 
-                c.id_level = ? AND 
-                uc.activate = ?;`;
+                c.id_level = ?;`;
         console.log(sql);
 
         let [result] = await pool.query(sql, params);
@@ -176,13 +175,13 @@ const avancePorcentaje = async (req, res) => {
         // console.log(idlevelsLevels)
         console.log(iduserUserLevel)
         // console.log(idlevelUserLevel)
-
-        console.log(result)
-        res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
-    } else {
-        // La actualización no fue exitosa
-        res.status(500).json({ success: false, error: 'La actualización del porcentaje no fue exitosa', result });
-    } 
+             
+            console.log(result)
+            res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
+        } else {
+            // La actualización no fue exitosa
+            res.status(500).json({ success: false, error: 'La actualización del porcentaje no fue exitosa', result });
+        } 
     } catch (error) {
         console.error('Error al ejecutar la consulta:', error);
         res.status(500).json({ success: false, error: 'Error interno del servidor' });
