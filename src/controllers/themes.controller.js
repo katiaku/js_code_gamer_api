@@ -18,6 +18,24 @@ const getThemes = async (req, res) => {
     }
 };
 
+const markThemesCompleted = async (req, res) => {
+    try {
+        let params = [req.query.iduser, req.query.id_level];
+        console.log(params);
+        let sql;
+        sql = `UPDATE user_theme AS ut
+            INNER JOIN themes AS t ON ut.idtheme = t.idthemes
+            SET ut.completed = 1
+            WHERE ut.iduser = ? AND t.id_level = ?`;
+        let [result] = await pool.query(sql, params);
+        res.send(result);
+    } catch (err) {
+        console.log(err);
+        res.send('Error en el servidor');
+    }
+};
+
 module.exports = {
-    getThemes
+    getThemes,
+    markThemesCompleted
 };
