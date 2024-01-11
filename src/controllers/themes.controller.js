@@ -44,6 +44,32 @@ const getActiveRetos = async (req, res) => {
 };
 
 
+const getCompletedRetos = async (req, res) => {
+    try {
+        let params = [req.query.iduser];
+        console.log(params);
+        let sql;
+        sql = `SELECT c.id_level from challenges as c
+        INNER JOIN user_challenges as uc ON(c.idchallenges = uc.idchallenge)
+        WHERE iduser = ? and completed = 0
+        group by id_level;`;
+        let [result] = await pool.query(sql, params);
+        let respuesta = {
+            error: false,
+            code: 200,
+            message: "Temas activos",
+            data: result  
+        }
+
+        console.log(respuesta.data);
+        res.send(respuesta);
+    } catch (err) {
+        console.log(err);
+        res.send('Error en el servidor');
+    }
+};
+
+
 
 const markThemesCompleted = async (req, res) => {
     try {
@@ -98,7 +124,7 @@ const markRetosTemaCompletos = async (req, res) => {
 
 const markTemaCompleted = async (req, res) => {
     try {
-        let params = [req.query.iduser, req.query.idchallenge];
+        let params = [req.query.iduser, req.query.id_level];
         console.log(params);
         let sql;
         sql = `UPDATE user_challenges AS uc
@@ -118,5 +144,7 @@ module.exports = {
     getActiveRetos,
     markThemesCompleted,
     markRetosCompleted,
-    markRetosTemaCompletos
+    markRetosTemaCompletos,
+    getCompletedRetos,
+    markTemaCompleted
 };

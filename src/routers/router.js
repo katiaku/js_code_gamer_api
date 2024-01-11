@@ -16,11 +16,15 @@ router.post('/logout', controladorUser.userLogout);
 
 router.get('/retos', controladorUser.userRetos);
 
+router.get('/retos/completed', controladorThemes.getCompletedRetos);
+
 router.get('/retos/active', controladorThemes.getActiveRetos);
 
 router.post('/retos/mark_retos_completed', controladorThemes.markRetosCompleted);
 
 router.post('/retos/mark_reto_tema_completed', controladorThemes.markRetosTemaCompletos);
+
+router.post('/retos/mark_tema_completed', controladorThemes.markTemaCompleted)
 
 router.put('/usuario', controladorUser.updateUser);
 
