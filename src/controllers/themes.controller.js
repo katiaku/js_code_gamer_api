@@ -95,7 +95,7 @@ const markRetosCompleted = async (req, res) => {
         let sql;
         sql = `UPDATE user_challenges AS uc
         INNER JOIN challenges AS c ON uc.idchallenge = c.idchallenges
-        SET uc.completed = 1 AND uc.activate = 0
+        SET uc.completed = 1, uc.activate = 0
         WHERE uc.iduser = ? AND uc.idchallenge = ?`;
         let [result] = await pool.query(sql, params);
         res.send(result);
