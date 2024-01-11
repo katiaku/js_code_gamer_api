@@ -90,7 +90,7 @@ const markThemesCompleted = async (req, res) => {
 
 const markRetosCompleted = async (req, res) => {
     try {
-        let params = [req.query.iduser, req.qeury.idchallenge];
+        let params = [req.query.iduser, req.query.idchallenge];
         console.log(params);
         let sql;
         sql = `UPDATE user_challenges AS uc
