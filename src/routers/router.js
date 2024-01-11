@@ -20,6 +20,8 @@ router.get('/retos/completed', controladorThemes.getCompletedRetos);
 
 router.get('/retos/active', controladorThemes.getActiveRetos);
 
+router.post('/retos/activar', controladorThemes.activateRetos);
+
 router.post('/retos/mark_retos_completed', controladorThemes.markRetosCompleted);
 
 router.post('/retos/mark_reto_tema_completed', controladorThemes.markRetosTemaCompletos);
