@@ -47,7 +47,7 @@ const userRetos = async (req, res) => {
                 INNER JOIN user_challenges as uc ON (uc.idchallenge = c.idchallenges) 
                 WHERE uc.iduser = ? AND 
                 c.id_level = ? AND 
-                uc.activate = 1 AND uc.completed = 0
+                uc.activate = 1 
                 LIMIT 1;`;
         console.log(sql);
 
