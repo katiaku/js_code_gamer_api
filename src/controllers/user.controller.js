@@ -326,12 +326,17 @@ const updateUser = async (request, response) => {
       WHERE completed = 1 AND iduser = ?;`;
       const [result] = await pool.query(sql, [iduser]);
   
-      if (!result.length) {
-        response.send({ error: true, codigo: 200, message: "Datos no encontrados para el usuario especificado" });
-      } else {
-        response.send({ error: false, codigo: 200, message: "Datos encontrados", user: result });
+      let respuesta = {
+        error: false,
+        code: 200,
+        message: "Tema " + req.body.idtheme,
+        data: result  
+    }
+
+    console.log(respuesta);
+        response.send(respuesta);
         console.log(result);
-      }
+      
     } catch (error) {
       console.error("Error:", error);
       response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
