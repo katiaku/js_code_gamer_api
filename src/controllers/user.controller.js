@@ -319,17 +319,17 @@ const updateUser = async (request, response) => {
   };
   const getCompletados = async (request, response) => {
     try {
-      const iduser = request.query.iduser;
+      let iduser = [request.query.iduser];
       
   
-      const sql = `SELECT COUNT(*) as total_completados FROM user_challenges
+      let sql = `SELECT COUNT(*) as total_completados FROM user_challenges
       WHERE completed = 1 AND iduser = ?;`;
-      const [result] = await pool.query(sql, [iduser]);
+      let [result] = await pool.query(sql, iduser);
   
       let respuesta = {
         error: false,
         code: 200,
-        message: "Tema " + req.body.idtheme,
+        message: "Tema Completado",
         data: result  
     }
 
