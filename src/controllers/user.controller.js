@@ -317,6 +317,27 @@ const updateUser = async (request, response) => {
       response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
     }
   };
+  const getCompletados = async (request, response) => {
+    try {
+      const iduser = request.query.iduser;
+      
+  
+      const sql = `SELECT COUNT(*) as total_completados FROM user_challenges
+      WHERE completed = 1 AND iduser = ?;`;
+      const [result] = await pool.query(sql, [iduser]);
+  
+      if (!result.length) {
+        response.send({ error: true, codigo: 200, message: "Datos no encontrados para el usuario especificado" });
+      } else {
+        response.send({ error: false, codigo: 200, message: "Datos encontrados", user: result });
+        console.log(result);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
+    }
+  };
+
 
 module.exports = {
     userRegister,
@@ -327,4 +348,5 @@ module.exports = {
     avancePorcentaje,
     obtenerDatosNiveles,
     getAll,
+    getCompletados
 };
