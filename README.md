@@ -6,6 +6,9 @@ The JSCODEGAMER Backend repository contains the codebase for the server-side log
 ## Why?
 The motivation behind this repository is to support the frontend application by providing necessary backend functionalities. This includes managing user data, progress tracking, and authentication, ensuring a seamless and personalized experience for users as they interact with the JSCODEGAMER application.
 
+## Front End:
+The JSCODEGAMER Frontend repository contains the codebase for the user interface of the JSCODEGAMER application. It is built using Angular framework and provides an interactive environment for learning programming through JavaScript. For more details visit: https://github.com/katiaku/js_code_gamer
+
 ## Quick Start:
 - Clone the repository: ```git clone <backend-repo-url>```
 - Navigate to the project directory: ```cd js_code_gamer_api```
