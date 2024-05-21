@@ -1,5 +1,4 @@
 const { pool } = require('../database');
-const {express} = require('express');
 
 const getThemes = async (req, res) => {
     try {
@@ -93,8 +92,6 @@ const activateRetos = async (req, res) => {
         res.send('Error en el servidor');
     }
 };
-
-
 
 const markThemesCompleted = async (req, res) => {
     try {

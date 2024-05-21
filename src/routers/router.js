@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-const {express} = require('express');
 const controladorUser = require('../controllers/user.controller');
 const controladorThemes = require('../controllers/themes.controller');
 
@@ -43,6 +42,3 @@ router.get('/', (req, res) => {
 });
 
 module.exports = router;
-
-
-

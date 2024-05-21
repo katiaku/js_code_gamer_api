@@ -1,5 +1,4 @@
 const { pool } = require('../database');
-const {express} = require('express');
 
 // const userRegister = async (req, res) => {
 //     try {
@@ -118,20 +117,12 @@ const userLogout = (req, res) => {
 const avancePorcentaje = async (req, res) => {
     try{
         const iduserTheme = req.body.iduserTheme;
-        // const id_levelTheme = req.body.id_levelTheme;
         const iduserChallenges = req.body.iduserChallenges;
-        // const id_levelChallenges = req.body.id_levelChallenges;
-        // const idlevelsLevels = req.body.idlevelsLevels;
         const iduserUserLevel = req.body.iduserUserLevel;
-        // const idlevelUserLevel = req.body.idlevelUserLevel;
         
         console.log(iduserTheme)
-        // console.log(id_levelTheme)
         console.log(iduserChallenges)
-        // console.log(id_levelChallenges)
-        // console.log(idlevelsLevels)
         console.log(iduserUserLevel)
-        // console.log(idlevelUserLevel)
 
         const updateSql = `
         UPDATE user_level AS ul
@@ -164,24 +155,18 @@ const avancePorcentaje = async (req, res) => {
             WHERE user_level.iduser = ? AND user_level.idlevel = user_level.idlevel;
         `;
 
-       await pool.query(updateSql, [iduserTheme, iduserChallenges, iduserUserLevel]);
-       const [result] = await pool.query(selectSql, [iduserUserLevel]);
-       if (result.length > 0) {
-        const nuevoPorcentaje = result[0].percentage;
-        console.log(nuevoPorcentaje);
-       
-        console.log(iduserTheme)
-        // console.log(id_levelTheme)
-        console.log(iduserChallenges)
-        // console.log(id_levelChallenges)
-        // console.log(idlevelsLevels)
-        console.log(iduserUserLevel)
-        // console.log(idlevelUserLevel)
-             
-            console.log(result)
-            res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
+        await pool.query(updateSql, [iduserTheme, iduserChallenges, iduserUserLevel]);
+        const [result] = await pool.query(selectSql, [iduserUserLevel]);
+        if (result.length > 0) {
+          const nuevoPorcentaje = result[0].percentage;
+          console.log(nuevoPorcentaje);
+        
+          console.log(iduserTheme)
+          console.log(iduserChallenges)
+          console.log(iduserUserLevel)
+              console.log(result)
+              res.status(200).json({ success: true, message: 'Porcentaje actualizado con éxito', porcentaje: nuevoPorcentaje, result });
         } else {
-            // La actualización no fue exitosa
             res.status(500).json({ success: false, error: 'La actualización del porcentaje no fue exitosa', result });
         } 
     } catch (error) {
@@ -205,7 +190,6 @@ const obtenerDatosNiveles = async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor' });
     }
   };
-
 
 //   const updateUser = async (request, response) => {
 //     try {
@@ -231,7 +215,6 @@ const obtenerDatosNiveles = async (req, res) => {
 //       response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
 //     }
 //   };
-
 
 const updateUser = async (request, response) => {
     try {
@@ -272,19 +255,16 @@ const updateUser = async (request, response) => {
       if (updateFields.length === 0) {
         return response.status(400).send({ error: true, codigo: 400, message: "No hay datos para actualizar" });
       }
-  
-      // Construye la consulta SQL dinámicamente
+
       const sql = `UPDATE user SET ${updateFields.join(', ')} WHERE iduser = ?;`;
       const queryValues = [...updateValues, iduser];
   
       console.log("SQL:", sql);
       console.log("Query Values:", queryValues);
 
-      // Realiza la actualización en la base de datos
       const [result] = await pool.query(sql, queryValues);
       console.log("Query Result:", result);
-  
-      // Verifica si la actualización fue exitosa
+
       if (result.affectedRows === 1) {
         response.send({ error: false, codigo: 200, message: "Usuario actualizado correctamente" });
       } else {
@@ -342,7 +322,6 @@ const updateUser = async (request, response) => {
       response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
     }
   };
-
 
 module.exports = {
     userRegister,
